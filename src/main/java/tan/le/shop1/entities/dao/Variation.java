@@ -3,20 +3,13 @@ package tan.le.shop1.entities.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tan.le.shop1.enums.converter.EnumsVariationTypeConverter;
 
 @Table (name = "variation")
 @Entity
@@ -34,10 +27,17 @@ public class Variation implements Serializable {
 	
 	@NotNull
 	private String name;
-	
+
+	@Column(name = "variation_type")
+	@Convert(converter = EnumsVariationTypeConverter.class)
+	private String type;
+
 	@Column(name = "description")
 	private String desc;
 	
-	@OneToMany(mappedBy ="variation", fetch = FetchType.LAZY)
-	private List<VariationOption> variationOption;
+	@OneToMany(mappedBy ="name", fetch = FetchType.LAZY)
+	private List<VariationOption> names;
+
+	@OneToMany(mappedBy ="value", fetch = FetchType.LAZY)
+	private List<VariationOption> values;
 }

@@ -46,7 +46,7 @@ public class OrderItem implements Serializable{
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id", referencedColumnName = "id")
 	@JsonIgnore
-	private Products product;
+	private Inventory product;
 	
 	@NotNull
 	private Integer quantity;

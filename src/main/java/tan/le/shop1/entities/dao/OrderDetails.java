@@ -50,8 +50,14 @@ public class OrderDetails implements Serializable{
 	@JoinColumn(name = "shipping_address", referencedColumnName = "id")
 	@JsonIgnore
 	private Address shippingAddress;
-	
-	private Long author;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "author", referencedColumnName = "id")
+	private AdminUser author;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "promotion", referencedColumnName = "id")
+	private Promotion promotion;
 	
 	@NotNull
 	private Integer totalItem;

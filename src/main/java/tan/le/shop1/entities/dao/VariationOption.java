@@ -37,16 +37,18 @@ public class VariationOption implements Serializable{
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="variation_id", referencedColumnName = "id")
+	@JoinColumn(name="name", referencedColumnName = "id")
 	@JsonIgnore
-	private Variation variation;
-	
-	@NotNull
-	private String value;
+	private Variation name;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name="value", referencedColumnName = "id")
+	@JsonIgnore
+	private Variation value;
 	
 //	@OneToMany(mappedBy = "variationOption", fetch = FetchType.LAZY)
 //	private List<ProductsVariationOption> productsVariation;
 
-	 @ManyToMany(mappedBy = "productsVariation")
-	    private List<Products> variationProducts;
+//	 @ManyToMany(mappedBy = "productsVariation")
+//	    private List<Products> variationProducts;
 }

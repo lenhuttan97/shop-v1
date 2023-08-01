@@ -50,16 +50,21 @@ public class Products implements Serializable{
 	
 	private String SKU;
 	
-	@Column(name = "description")
-	private String desc;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "desc", referencedColumnName = "id")
+	private Desc desc;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "category", referencedColumnName = "id")
+	private Category category;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "producer", referencedColumnName = "id")
+	private Producer producer;
 	
-//	private Long categoryId;
-	
-	@NotNull
-	private Double price;
-	
-	@NotNull
-	private Integer inventory;
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	private List<Inventory> inventorys;
 	
 	@NotNull
 	@AssertTrue
@@ -70,12 +75,15 @@ public class Products implements Serializable{
 	private Boolean isBestsaler;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "promotion_id", referencedColumnName = "id")
+	@JoinColumn(name = "promotion", referencedColumnName = "id")
 	@JsonIgnore
-	private Promotion promotion;
+	private ProductPromotion promotion;
 	
 	private String img;
-	
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+	private List<Reviews> review;
+
 	@CreationTimestamp
 	private LocalDateTime createAt;
 	
@@ -84,17 +92,5 @@ public class Products implements Serializable{
 	
 	@CreationTimestamp
 	private LocalDateTime deleteAt;
-	
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-	private List<Reviews> review;
-	
-//	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-//	private List<ProductsVariationOption> productsVariation;
-	
-	@ManyToMany
-    @JoinTable(name = "products_variation", 
-    joinColumns = @JoinColumn(name = "product_id"), 
-    								inverseJoinColumns = @JoinColumn(name = "variation_id"))
-    private List<VariationOption> productsVariation;
-	
+
 }

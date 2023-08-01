@@ -4,17 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,15 +27,24 @@ public class Promotion implements Serializable{
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@NotNull
+	private String code;
+
 	@NotNull
 	private String name;
 	
 	@Column(name = "description")
 	private String desc;
 	
-	@NotNull
+
 	private Integer discountRate;
+
+
+	private Double maxPrice;
+
+
+	private Double discountMoney;
 	
 	@CreationTimestamp
 	private LocalDateTime startAt;
@@ -55,7 +57,9 @@ public class Promotion implements Serializable{
 	
 	@CreationTimestamp
 	private LocalDateTime modifierAt;
-	
-	@OneToMany(mappedBy = "promotion", fetch = FetchType.LAZY)
-	private List<Products> products;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "product", referencedColumnName = "id")
+	@JsonIgnore
+	private ProductPromotion product;
 }

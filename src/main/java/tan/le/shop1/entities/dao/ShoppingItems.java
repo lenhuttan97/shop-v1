@@ -37,8 +37,7 @@ public class ShoppingItems implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "sesstion_id", referencedColumnName = "id")
 	@JsonIgnore
@@ -47,7 +46,7 @@ public class ShoppingItems implements Serializable{
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "product_id", referencedColumnName = "id")
 	@JsonIgnore
-	private Products product;
+	private Inventory product;
 	
 	@NotNull
 	private Integer quantity;
